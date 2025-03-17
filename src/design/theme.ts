@@ -1,20 +1,21 @@
 import { defineConfig, createSystem, defaultConfig } from "@chakra-ui/react";
+import { tokens } from "./tokens";
 
 const config = defineConfig({
   theme: {
     tokens: {
       colors: {
         black: {
-          100: { value: "#212B36" },
+          100: { value: tokens.black },
         },
         blue: {
-          100: { value: "#FAFCFD" },
+          100: { value: tokens.blue },
         },
         gray: {
-          100: { value: "#9DA0A4" },
+          100: { value: tokens.gray },
         },
         red: {
-          100: { value: "#EA524F" },
+          100: { value: tokens.red },
         },
       },
     },
