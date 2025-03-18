@@ -1,11 +1,17 @@
-import { useRef } from "react";
-import { Button, Dialog, Field, Input, Portal, Stack, Heading } from "@chakra-ui/react";
+import { useState } from "react";
+
+import { Button, Dialog, Portal, Heading } from "@chakra-ui/react";
+import CreateNoteForm from "./CreateNoteForm";
 
 const CreateNoteModal = () => {
-  const ref = useRef<HTMLInputElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOnClose = () => {
+    setIsOpen(false);
+  };
 
   return (
-    <Dialog.Root initialFocusEl={() => ref.current}>
+    <Dialog.Root open={isOpen} onOpenChange={() => setIsOpen(true)}>
       <Dialog.Trigger asChild>
         <Button background="red.100">Create Note</Button>
       </Dialog.Trigger>
@@ -19,23 +25,8 @@ const CreateNoteModal = () => {
               </Heading>
             </Dialog.Header>
             <Dialog.Body pb="xs">
-              <Stack gap="md">
-                <Field.Root>
-                  <Field.Label>Title</Field.Label>
-                  <Input ref={ref} placeholder="Title" />
-                </Field.Root>
-                <Field.Root>
-                  <Field.Label>Content</Field.Label>
-                  <Input placeholder="Content" />
-                </Field.Root>
-              </Stack>
+              <CreateNoteForm onClose={handleOnClose} />
             </Dialog.Body>
-            <Dialog.Footer>
-              <Dialog.ActionTrigger asChild>
-                <Button variant="outline">Cancel</Button>
-              </Dialog.ActionTrigger>
-              <Button background="red.100">Create</Button>
-            </Dialog.Footer>
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>
