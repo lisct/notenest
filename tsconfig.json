@@ -2,11 +2,14 @@
   "files": [],
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "skipLibCheck": true,
     "baseUrl": ".",
+    "types": ["@testing-library/react", "jest", "node"],
     "paths": {
       "@/*": ["./src/*"],
       "@chakra-ui/react": ["node_modules/@chakra-ui/react"]
