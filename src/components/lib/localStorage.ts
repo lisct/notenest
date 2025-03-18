@@ -10,6 +10,6 @@ export const getLocalStorageItem = () => {
   return entries ? JSON.parse(entries) : [];
 };
 
-export const setLocalStorageItem = (note: Note[]) => {
-  localStorage.setItem("notes", JSON.stringify(note));
+export const setLocalStorageItem = (notes: Note[]) => {
+  localStorage.setItem("notes", JSON.stringify(notes));
 };
