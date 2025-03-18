@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { Text, Field, Input, Stack, Button, Flex } from "@chakra-ui/react";
 import { Note } from "../lib/localStorage";
+import { v4 as uuid } from "uuid";
 
 type FormValues = {
   title: string;
@@ -24,7 +25,7 @@ const NoteForm: FC<Props> = ({ onClose, onSubmit }) => {
 
   const handleCreateNote = (data: FormValues) => {
     const note: Note = {
-      id: crypto.randomUUID(),
+      id: uuid(),
       title: data.title,
       content: data.content,
       createdTime: new Date().toISOString(),
@@ -34,7 +35,7 @@ const NoteForm: FC<Props> = ({ onClose, onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleCreateNote)}>
+    <form onSubmit={handleSubmit(handleCreateNote)} data-testid="create-note-form">
       <Stack gap="md">
         <Field.Root>
           <Field.Label>Title</Field.Label>
