@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Box, Heading, Separator } from "@chakra-ui/react";
-import { getLocalStorageItem, setLocalStorageItem, Note } from "../components/lib/localStorage";
-import CreateNoteModal from "../components/CreateNoteModal/CreateNoteModal";
-import PageContainer from "../components/PageContainer/PageContainer";
-import NoResult from "../components/NoResult/NoResult";
-import NoteDetails from "../components/NoteDetails/NoteDetails";
+import { getLocalStorageItem, setLocalStorageItem, Note } from "../../components/lib/localStorage";
+import CreateNoteModal from "../../components/CreateNoteModal/CreateNoteModal";
+import PageContainer from "../../components/PageContainer/PageContainer";
+import NoResult from "../../components/NoResult/NoResult";
+import NoteDetails from "../../components/NoteDetails/NoteDetails";
 
 const DetailPage = () => {
   const [entries, setEntriesState] = useState<Note[]>([]);
@@ -18,7 +18,7 @@ const DetailPage = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const notes = getLocalStorageItem();
+        const notes = getLocalStorageItem() || [];
         setEntriesState(notes);
       } catch (error) {
         console.error("Error fetching notes from localStorage:", error);
