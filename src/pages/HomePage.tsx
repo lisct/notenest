@@ -29,7 +29,7 @@ const HomePage = () => {
             ))}
           </Box>
         ) : (
-          <NoResult />
+          <NoResult showCta />
         )}
       </Box>
     </PageContainer>
