@@ -7,11 +7,21 @@ import compact from "lodash/compact";
 import { getLocalStorageItem, Note as NoteType } from "../components/lib/localStorage";
 
 const HomePage = () => {
-  const [entries, setEntriesState] = useState<NoteType[]>();
+  const [entries, setEntriesState] = useState<NoteType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const entriesFromStorage = getLocalStorageItem();
-    setEntriesState(entriesFromStorage);
+    const fetchNotes = async () => {
+      try {
+        const entriesFromStorage = getLocalStorageItem();
+        setEntriesState(entriesFromStorage);
+      } catch (error) {
+        console.error("Error fetching notes from localStorage:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNotes();
   }, []);
 
   return (
@@ -22,14 +32,14 @@ const HomePage = () => {
           <Separator />
         </Box>
 
-        {compact(entries).length > 0 ? (
+        {!loading && compact(entries).length === 0 ? (
+          <NoResult showCta />
+        ) : (
           <Box display="flex" flexDirection="column" gap="sm">
             {compact(entries).map((note) => (
-              <Note title={note.title} date={note.createdTime} />
+              <Note key={note.createdTime} title={note.title} date={note.createdTime} />
             ))}
           </Box>
-        ) : (
-          <NoResult showCta />
         )}
       </Box>
     </PageContainer>
