@@ -4,7 +4,7 @@ import Menu from "./Menu";
 
 const Header = () => {
   return (
-    <Box backgroundColor="blue.100">
+    <Box as="header" backgroundColor="blue.100">
       <Container paddingY="lg">
         <Flex justifyContent="space-between">
           <Box display="flex" alignItems="center" gap="2xs" color="red.100">
