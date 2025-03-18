@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { Text, Field, Input, Stack, Button, Flex } from "@chakra-ui/react";
-import { setLocalStorageItem, Note } from "../lib/localStorage";
+import { Note } from "../lib/localStorage";
 
 type FormValues = {
   title: string;
@@ -10,9 +10,10 @@ type FormValues = {
 
 type Props = {
   onClose: () => void;
+  onSubmit: (note: Note) => void;
 };
 
-const NoteForm: FC<Props> = ({ onClose }) => {
+const NoteForm: FC<Props> = ({ onClose, onSubmit }) => {
   const {
     register,
     handleSubmit,
@@ -28,8 +29,7 @@ const NoteForm: FC<Props> = ({ onClose }) => {
       content: data.content,
       createdTime: new Date().toISOString(),
     };
-
-    setLocalStorageItem(note);
+    onSubmit(note);
     onClose();
   };
 
