@@ -11,7 +11,7 @@ const NoteDetails: FC<Props> = ({ notes }) => {
   return (
     <Accordion.Root multiple>
       {notes.map(({ title, content, createdTime }) => (
-        <NoteDetailItem title={title} content={content} date={createdTime} />
+        <NoteDetailItem key={title} title={title} content={content} date={createdTime} />
       ))}
     </Accordion.Root>
   );
