@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { Text, Field, Input, Stack, Button, Flex } from "@chakra-ui/react";
+import { setLocalStorageItem, Note } from "../lib/localStorage";
 
 type FormValues = {
   title: string;
@@ -21,7 +22,14 @@ const NoteForm: FC<Props> = ({ onClose }) => {
   });
 
   const handleCreateNote = (data: FormValues) => {
-    console.log(data);
+    const note: Note = {
+      id: crypto.randomUUID(),
+      title: data.title,
+      content: data.content,
+      createdTime: new Date().toISOString(),
+    };
+
+    setLocalStorageItem(note);
     onClose();
   };
 
