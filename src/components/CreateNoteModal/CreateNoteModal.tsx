@@ -1,6 +1,6 @@
 import { useState, FC } from "react";
 
-import { Button, Dialog, Portal, Heading } from "@chakra-ui/react";
+import { Button, Dialog, Portal, Heading, Box } from "@chakra-ui/react";
 import CreateNoteForm from "./CreateNoteForm";
 import { Note } from "../lib/localStorage";
 
@@ -14,19 +14,23 @@ const CreateNoteModal: FC<Prop> = ({ onSubmit }) => {
     setIsOpen(false);
   };
 
+  const handleOnOpen = () => {
+    setIsOpen(true);
+  };
   const handleSubmit = (note: Note) => {
     onSubmit(note);
   };
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={() => setIsOpen(true)}>
-      <Dialog.Trigger asChild>
-        <Button background="red.100">Create Note</Button>
-      </Dialog.Trigger>
+    <Dialog.Root open={isOpen} onOpenChange={handleOnOpen}>
+      <Button background="red.100" onClick={handleOnOpen}>
+        Create Note
+      </Button>
+
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content padding="2xl">
+          <Box as={Dialog.Content} padding="2xl">
             <Dialog.Header>
               <Heading size="4xl" fontWeight="400">
                 Create Note
@@ -35,7 +39,7 @@ const CreateNoteModal: FC<Prop> = ({ onSubmit }) => {
             <Dialog.Body pb="xs">
               <CreateNoteForm onClose={handleOnClose} onSubmit={handleSubmit} />
             </Dialog.Body>
-          </Dialog.Content>
+          </Box>
         </Dialog.Positioner>
       </Portal>
     </Dialog.Root>
