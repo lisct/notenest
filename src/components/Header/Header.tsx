@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <Box as="header" backgroundColor="blue.100">
       <Container paddingY="lg">
-        <Flex justifyContent="space-between">
+        <Flex justifyContent="space-between" alignItems="center">
           <Box display="flex" alignItems="center" gap="2xs" color="red.100">
             <ChatCircleText size={32} weight="fill" />
             <Heading size="xl">NoteNest</Heading>

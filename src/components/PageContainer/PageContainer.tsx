@@ -13,7 +13,7 @@ const PageContainer: FC<Props> = ({ children }) => {
       <Header />
 
       <Container flex="1">
-        <Box>{children}</Box>
+        <Box paddingY="xl">{children}</Box>
       </Container>
 
       <Footer />
