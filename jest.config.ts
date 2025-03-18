@@ -6,6 +6,7 @@ module.exports = {
   },
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
+    "\\.svg$": "jest-transform-stub",
   },
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
 };
