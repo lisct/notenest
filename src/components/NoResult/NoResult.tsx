@@ -19,7 +19,8 @@ const NoResult: FC<Props> = ({ showCta }) => {
           </RouterNavLink>
         )}
       </Flex>
-      <object aria-label="plus" type="image/svg+xml" width="600px" data={NoResultIcon} />
+
+      <img src={NoResultIcon} alt="No Result Icon" width="600px" />
     </Flex>
   );
 };
