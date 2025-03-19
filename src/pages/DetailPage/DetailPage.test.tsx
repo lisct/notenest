@@ -2,7 +2,11 @@ import { screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { render } from "../../testUtils/render";
 import DetailPage from "./DetailPage";
-import { getLocalStorageItem, setLocalStorageItem } from "../../components/lib/localStorage";
+import {
+  getLocalStorageItem,
+  setLocalStorageItem,
+  removeLocalStorageItem,
+} from "../../components/lib/localStorage";
 
 jest.mock("uuid", () => ({
   v4: jest.fn(() => "unique-uuid-1234"),
@@ -29,6 +33,7 @@ global.Date.UTC = jest.fn(
 jest.mock("../../components/lib/localStorage", () => ({
   getLocalStorageItem: jest.fn(),
   setLocalStorageItem: jest.fn(),
+  removeLocalStorageItem: jest.fn(),
 }));
 
 describe("DetailPage", () => {
@@ -68,5 +73,28 @@ describe("DetailPage", () => {
 
     const title = screen.getByText(/Test Note/i);
     expect(title).toBeInTheDocument();
+  });
+
+  it("deletes a note and updates localStorage and state", async () => {
+    const mockNote = {
+      id: "unique-note-1234",
+      title: "Sample Note",
+      content: "Sample Content",
+      createdTime: new Date().toISOString(),
+    };
+
+    (getLocalStorageItem as jest.Mock).mockReturnValue([mockNote]);
+
+    render(<DetailPage />);
+
+    expect(screen.getByText("Sample Note")).toBeInTheDocument();
+
+    const deleteButton = screen.getByTestId("delete-button");
+    fireEvent.click(deleteButton);
+
+    await waitFor(() => {
+      expect(removeLocalStorageItem).toHaveBeenCalledWith(mockNote.id);
+      expect(screen.queryByText("Sample Note")).not.toBeInTheDocument();
+    });
   });
 });

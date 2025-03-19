@@ -5,13 +5,35 @@ export type Note = {
   createdTime: string;
 };
 
-export const getLocalStorageItem = () => {
-  const entries = localStorage.getItem("notes");
-  return entries ? JSON.parse(entries) : [];
+const STORAGE_KEY = "notes";
+
+const getStoredNotes = (): Note[] => {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  } catch {
+    return [];
+  }
 };
 
-export const setLocalStorageItem = (newEntry: Note) => {
-  const entries = JSON.parse(localStorage.getItem("notes") || "[]");
-  entries.push(newEntry);
-  localStorage.setItem("notes", JSON.stringify(entries));
+const saveStoredNotes = (notes: Note[]): void => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+};
+
+export const getLocalStorageItem = getStoredNotes;
+
+export const setLocalStorageItem = (newEntry: Note): void => {
+  const notes = getStoredNotes();
+  saveStoredNotes([...notes, newEntry]);
+};
+
+export const removeLocalStorageItem = (noteId: string): void => {
+  const updatedNotes = getStoredNotes().filter((note) => note.id !== noteId);
+  saveStoredNotes(updatedNotes);
+};
+
+export const updateLocalStorageItem = (updatedNote: Note): void => {
+  const updatedNotes = getStoredNotes().map((note) =>
+    note.id === updatedNote.id ? { ...note, ...updatedNote } : note
+  );
+  saveStoredNotes(updatedNotes);
 };
