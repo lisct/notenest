@@ -18,10 +18,14 @@ const DetailPage = () => {
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
+  useEffect(() => {
+    setEntriesState(getLocalStorageItem());
+    setLoading(false);
+  }, []);
+
   const handleCreateNote = (newNote: Note) => {
     if (selectedNote) {
       updateLocalStorageItem(newNote);
-
       setEntriesState((prevNotes) =>
         prevNotes.map((note) => (note.id === newNote.id ? { ...note, ...newNote } : note))
       );
@@ -37,7 +41,6 @@ const DetailPage = () => {
   };
 
   const handleOnOpenModal = () => {
-    setSelectedNote(null);
     setIsOpenCreateModal(true);
   };
 
@@ -53,19 +56,7 @@ const DetailPage = () => {
     setEntriesState(updatedNotes);
   };
 
-  useEffect(() => {
-    const fetchNotes = async () => {
-      try {
-        const notes = getLocalStorageItem() || [];
-        setEntriesState(notes);
-      } catch (error) {
-        console.error("Error fetching notes from localStorage:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchNotes();
-  }, []);
+  if (loading) return null;
 
   return (
     <PageContainer>
@@ -84,7 +75,7 @@ const DetailPage = () => {
           <Separator />
         </Box>
 
-        {!loading && entries.length === 0 ? (
+        {entries.length === 0 ? (
           <NoResult />
         ) : (
           <Box display="flex" flexDirection="column" gap="sm">
