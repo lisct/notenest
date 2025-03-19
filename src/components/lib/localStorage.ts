@@ -21,3 +21,11 @@ export const removeLocalStorageItem = (noteId: string): void => {
   const updatedNotes: Note[] = notes.filter((note) => note.id !== noteId);
   localStorage.setItem("notes", JSON.stringify(updatedNotes));
 };
+
+export const updateLocalStorageItem = (updatedNote: Note): void => {
+  const notes: Note[] = JSON.parse(localStorage.getItem("notes") || "[]");
+  const updatedNotes = notes.map((note) =>
+    note.id === updatedNote.id ? { ...note, ...updatedNote } : note
+  );
+  localStorage.setItem("notes", JSON.stringify(updatedNotes));
+};
