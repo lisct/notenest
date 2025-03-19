@@ -10,7 +10,7 @@ type Props = {
 
 const NoteDetailItem: FC<Props> = ({ title, content, date }) => {
   return (
-    <Accordion.Item value={title} padding="md" boxShadow="lg" borderRadius="lg" marginBottom="md">
+    <Box as={Accordion.Item} padding="md" boxShadow="lg" borderRadius="lg" marginBottom="md">
       <Accordion.ItemTrigger>
         <Box width="100%" display="flex" gap="2xs" flexDirection={{ base: "column", sm: "row" }}>
           <Heading fontWeight="400" size="lg" flex="1">
@@ -27,7 +27,7 @@ const NoteDetailItem: FC<Props> = ({ title, content, date }) => {
           </Text>
         </Accordion.ItemBody>
       </Accordion.ItemContent>
-    </Accordion.Item>
+    </Box>
   );
 };
 
