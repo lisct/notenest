@@ -7,12 +7,15 @@ import {
   updateLocalStorageItem,
   Note,
 } from "../../components/lib/localStorage";
+import { getLoginData } from "../../components/lib/loginStorage";
 import CreateNoteModal from "../../components/CreateNoteModal/CreateNoteModal";
 import PageContainer from "../../components/PageContainer/PageContainer";
 import NoResult from "../../components/NoResult/NoResult";
+import NoPermission from "../../components/NoPermission/NoPermission";
 import NoteDetails from "../../components/NoteDetails/NoteDetails";
 
 const DetailPage = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [entries, setEntriesState] = useState<Note[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
@@ -21,6 +24,9 @@ const DetailPage = () => {
   useEffect(() => {
     setEntriesState(getLocalStorageItem());
     setLoading(false);
+
+    const loginData = getLoginData();
+    setIsLoggedIn(!!loginData);
   }, []);
 
   const handleCreateNote = (newNote: Note) => {
@@ -64,23 +70,35 @@ const DetailPage = () => {
         <Box display="flex" flexDirection="column" gap="sm">
           <Box display="flex" justifyContent="space-between" gap="sm">
             <Heading fontWeight="400">Notes Details</Heading>
-            <CreateNoteModal
-              note={selectedNote}
-              isOpen={isOpenCreateModal}
-              onSubmit={handleCreateNote}
-              onOpen={handleOnOpenModal}
-              onClose={handleOnCloseModal}
-            />
+            {isLoggedIn && (
+              <CreateNoteModal
+                note={selectedNote}
+                isOpen={isOpenCreateModal}
+                onSubmit={handleCreateNote}
+                onOpen={handleOnOpenModal}
+                onClose={handleOnCloseModal}
+              />
+            )}
           </Box>
           <Separator />
         </Box>
 
-        {entries.length === 0 ? (
-          <NoResult />
+        {isLoggedIn ? (
+          <>
+            {entries.length === 0 ? (
+              <NoResult />
+            ) : (
+              <Box display="flex" flexDirection="column" gap="sm">
+                <NoteDetails
+                  notes={entries}
+                  onEdit={handleOnEditNote}
+                  onDelete={handleOnDeleteNote}
+                />
+              </Box>
+            )}
+          </>
         ) : (
-          <Box display="flex" flexDirection="column" gap="sm">
-            <NoteDetails notes={entries} onEdit={handleOnEditNote} onDelete={handleOnDeleteNote} />
-          </Box>
+          <NoPermission />
         )}
       </Box>
     </PageContainer>
