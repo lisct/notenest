@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { Flex, Text, Button } from "@chakra-ui/react";
-import NoResultIcon from "./noResultIcon.svg";
 import { NavLink as RouterNavLink } from "react-router-dom";
 
 type Props = {
@@ -20,7 +19,7 @@ const NoResult: FC<Props> = ({ showCta }) => {
         )}
       </Flex>
 
-      <img src={NoResultIcon} alt="No Result Icon" width="600px" />
+      <img src="images/noResultIcon.svg" alt="No Result Icon" width="600px" />
     </Flex>
   );
 };
