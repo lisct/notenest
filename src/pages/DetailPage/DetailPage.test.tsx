@@ -7,6 +7,7 @@ import {
   setLocalStorageItem,
   removeLocalStorageItem,
 } from "../../components/lib/localStorage";
+import { getLoginData } from "../../components/lib/loginStorage";
 
 jest.mock("uuid", () => ({
   v4: jest.fn(() => "unique-uuid-1234"),
@@ -36,6 +37,10 @@ jest.mock("../../components/lib/localStorage", () => ({
   removeLocalStorageItem: jest.fn(),
 }));
 
+jest.mock("../../components/lib/loginStorage", () => ({
+  getLoginData: jest.fn(),
+}));
+
 describe("DetailPage", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -44,6 +49,7 @@ describe("DetailPage", () => {
   });
 
   it("create a new note and update localStorage and state", async () => {
+    (getLoginData as jest.Mock).mockReturnValue({ userId: "123", username: "testUser" });
     (getLocalStorageItem as jest.Mock).mockReturnValue([]);
 
     render(<DetailPage />);
@@ -83,6 +89,7 @@ describe("DetailPage", () => {
       createdTime: new Date().toISOString(),
     };
 
+    (getLoginData as jest.Mock).mockReturnValue({ userId: "123", username: "testUser" });
     (getLocalStorageItem as jest.Mock).mockReturnValue([mockNote]);
 
     render(<DetailPage />);

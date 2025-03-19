@@ -1,12 +1,13 @@
 import { Flex } from "@chakra-ui/react";
 import NavLink from "./NavLink";
+import AuthButton from "./AuthButton";
 
 const Menu = () => {
   return (
-    <Flex gap={{ base: "xs", md: "lg" }}>
+    <Flex gap="lg" alignItems="center">
       <NavLink to="/" text="Notes" />
       <NavLink to="/details" text="Details" />
-      <NavLink to="/login" text="Login" />
+      <AuthButton />
     </Flex>
   );
 };
