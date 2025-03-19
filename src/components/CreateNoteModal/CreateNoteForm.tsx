@@ -10,26 +10,43 @@ type FormValues = {
 };
 
 type Props = {
+  defaultValue: Note | null;
   onClose: () => void;
   onSubmit: (note: Note) => void;
 };
 
-const NoteForm: FC<Props> = ({ onClose, onSubmit }) => {
+const NoteForm: FC<Props> = ({ defaultValue, onClose, onSubmit }) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<FormValues>({
     mode: "onChange",
+    defaultValues: {
+      ...defaultValue,
+    },
   });
 
   const handleCreateNote = (data: FormValues) => {
-    const note: Note = {
-      id: uuid(),
-      title: data.title,
-      content: data.content,
-      createdTime: new Date().toISOString(),
-    };
+    let note: Note;
+
+    if (defaultValue) {
+      // Editing: Keep the same id and createdTime, update only title and content
+      note = {
+        ...defaultValue,
+        title: data.title,
+        content: data.content,
+      };
+    } else {
+      // Creating new note
+      note = {
+        id: uuid(),
+        title: data.title,
+        content: data.content,
+        createdTime: new Date().toISOString(),
+      };
+    }
+
     onSubmit(note);
     onClose();
   };
@@ -72,7 +89,7 @@ const NoteForm: FC<Props> = ({ onClose, onSubmit }) => {
           </Button>
 
           <Button background="red.100" type="submit" disabled={!isValid}>
-            Create
+            {defaultValue ? "Save" : "Create"}
           </Button>
         </Flex>
       </Stack>
