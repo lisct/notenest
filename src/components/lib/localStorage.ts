@@ -15,3 +15,9 @@ export const setLocalStorageItem = (newEntry: Note) => {
   entries.push(newEntry);
   localStorage.setItem("notes", JSON.stringify(entries));
 };
+
+export const removeLocalStorageItem = (noteId: string): void => {
+  const notes: Note[] = JSON.parse(localStorage.getItem("notes") || "[]");
+  const updatedNotes: Note[] = notes.filter((note) => note.id !== noteId);
+  localStorage.setItem("notes", JSON.stringify(updatedNotes));
+};
